@@ -6,10 +6,10 @@ function AlsoUsedSection() {
     <div className="flex-col justify-between pb-8">
       <div>
         <h1 className="font-bold py-4 text-[22px]">
-          About the Recycled Plastic
+          Materials people also use
         </h1>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center md:space-x-4">
         <div>
           <Image
             src={"/images/also1.png"}

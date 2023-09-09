@@ -17,8 +17,10 @@ export default function Home() {
       <main className="min-h-screen py-4 px-4 md:px-16 font-archivo">
         <Navbar />
         <FeaturedSection />
-        <AboutSection />
-        <AlsoUsedSection />
+        <div className="md:flex md:justify-between md:flex-row-reverse">
+          <AboutSection />
+          <AlsoUsedSection />
+        </div>
         <MaterialsSection />
       </main>
     </>

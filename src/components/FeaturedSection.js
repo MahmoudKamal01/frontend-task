@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import AddButton from "./AddButton";
+import Label from "./Label";
 
 function FeaturedSection() {
   return (
@@ -12,9 +13,7 @@ function FeaturedSection() {
         </div>
       </div>
       <div className="w-auto h-[233px] md:h-[553px] relative bg-red-500">
-        <div className="absolute z-10 top-[-5px] left-0 py-4 px-20 md:px-24  bg-white font-bold ">
-          Featured
-        </div>
+        <Label text="Featured" />
         <Image
           src={"/images/Recycled Plastic.png"}
           alt="featured"
