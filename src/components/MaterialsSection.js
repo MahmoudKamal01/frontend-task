@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import MaterialCard from "./MaterialCard";
 import FiltersMenu from "./FiltersMenu";
 import { products } from "@/data/materials";
-import DropdownMenu from "./DropdownMenu";
 import Image from "next/image";
 
 function MaterialsSection() {
@@ -10,6 +9,8 @@ function MaterialsSection() {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortType, setSortType] = useState("unsorted"); // Default: unsorted
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
     // Update itemsPerPage based on screen width
@@ -42,27 +43,80 @@ function MaterialsSection() {
     setCurrentPage(newPage);
   };
 
+  const handleSortTypeChange = (event) => {
+    setSortType(event.target.value);
+  };
+
+  const handleSortDirectionChange = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
   const showPreviousPageButton = currentPage > 1;
   const showNextPageButton = currentPage < totalPages;
 
+  const sortedProducts =
+    sortType !== "unsorted"
+      ? [...filteredProducts].sort((a, b) => {
+          if (sortType === "name") {
+            return sortDirection === "asc"
+              ? a.name.localeCompare(b.name)
+              : b.name.localeCompare(a.name);
+          } else if (sortType === "price") {
+            return sortDirection === "asc"
+              ? a.price - b.price
+              : b.price - a.price;
+          }
+          return 0;
+        })
+      : filteredProducts;
+
   return (
-    <div className="border-t-4 border-t-[#E4E4E4] pt-12 ">
-      <div className="flex flex-row justify-between w-full  md:mb-20">
+    <div className=" pt-4 ">
+      <div className="flex justify-end md:hidden mb-4 pb-8">
+        <button>
+          <Image
+            src={"/icons/filters.svg"}
+            alt="cart-icon"
+            width={30}
+            height={25}
+          />
+        </button>
+      </div>
+      <div className="flex md:flex-row flex-col justify-around md:justify-between w-full pt-12  md:mb-20 border-t-4 border-t-[#E4E4E4]">
         <div className="flex items-center space-x-1  pb-4">
-          <h1 className="text-[18px] font-bold inline-flex items-center">
+          <h1 className="md:text-[30px] font-bold inline-flex items-center">
             Materials
           </h1>
-          <span className="font-bold text-[34px] "> / </span>
-          <span className="text-[#9B9B9B] font-medium inline-flex items-center">
+          <span className="font-bold md:text-[34px] "> / </span>
+          <span className="text-[#9B9B9B] md:text-[30px] font-medium inline-flex items-center">
             Premium Photos
           </span>
         </div>
-        <div className="flex flex-row items-center space-x-2  md:text-[24px] text-[12px] capitalize">
-          <span className="w-3 h-3 md:h-6 md:w-6">
-            <Image src={"/arrows.svg"} alt="sorting" width={25} height={25} />
-          </span>
+        <div className="flex flex-row items-center space-x-2 pb-4 md:text-[24px] text-[12px] capitalize">
+          {/* Button to change sorting direction */}
+          <button
+            className="w-3 h-3 md:h-6 md:w-6"
+            onClick={handleSortDirectionChange}
+          >
+            <Image
+              src={"/icons/arrows.svg"}
+              alt="sorting"
+              width={25}
+              height={25}
+            />
+          </button>
           <p className="text-[#9B9B9B] ">sort by</p>
-          <DropdownMenu />
+          <div className="flex items-center space-x-2 md:text-[24px] text-[12px] capitalize">
+            <select
+              className="px-2 py-1"
+              value={sortType}
+              onChange={handleSortTypeChange}
+            >
+              <option value="unsorted">Select Option</option>
+              <option value="name">Name</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
         </div>
       </div>
       <div className="flex justify-between ">
@@ -73,18 +127,16 @@ function MaterialsSection() {
           />
         </div>
         <div className="md:ml-20 w-full grid grid-cols-1 md:grid-cols-3 gap-12">
-          {filteredProducts
-            .slice(startIndex, endIndex)
-            .map((product, index) => (
-              <MaterialCard
-                key={index}
-                name={product.name}
-                category={product.category}
-                price={product.price}
-                image={product.image}
-                bestseller={product.bestseller}
-              />
-            ))}
+          {sortedProducts.slice(startIndex, endIndex).map((product, index) => (
+            <MaterialCard
+              key={index}
+              name={product.name}
+              category={product.category}
+              price={product.price}
+              image={product.image}
+              bestseller={product.bestseller}
+            />
+          ))}
         </div>
       </div>
       <div className="flex justify-center mt-4 space-x-6">

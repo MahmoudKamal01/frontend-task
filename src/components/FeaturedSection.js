@@ -31,7 +31,7 @@ function FeaturedSection() {
         />
       </div>
       <div className="md:hidden py-4 w-full">
-        <AddButton />
+        <AddButton handleClick={handleAddToCart} />
       </div>
     </div>
   );

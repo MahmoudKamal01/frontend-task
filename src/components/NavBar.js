@@ -24,7 +24,12 @@ function NavBar() {
           className="w-[32px] h-[32px] md:w-12 md:h-12"
           onClick={toggleCart}
         >
-          <Image src={"./cart.svg"} alt="cart-icon" width={100} height={200} />
+          <Image
+            src={"./icons/cart.svg"}
+            alt="cart-icon"
+            width={100}
+            height={200}
+          />
         </button>
         {isCartOpen ? (
           <div className=" bg-white  md:w-96 w-80  absolute z-20 right-2 md:right-16 top-[76px]">
@@ -38,7 +43,7 @@ function NavBar() {
                 <div className="flex flex-col" key={index}>
                   <div className="flex justify-end p-4">
                     <Image
-                      src={"/x.svg"}
+                      src={"/icons/x.svg"}
                       width={22}
                       height={22}
                       alt="close cart"

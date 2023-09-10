@@ -117,7 +117,7 @@ export const products = [
     details: null,
   },
   {
-    name: "Colored",
+    name: "AColored",
     category: "glass",
     price: 101,
     currency: "USD",

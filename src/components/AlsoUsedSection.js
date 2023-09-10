@@ -40,9 +40,6 @@ function AlsoUsedSection() {
         <p className="text-[#656565]">Weight: 2340g/m2</p>
         <p className="text-[#656565]">Thickness: 3cm</p>
       </div>
-      <div className="flex justify-end md:hidden">
-        <Image src={"./filters.svg"} alt="cart-icon" width={30} height={25} />
-      </div>
     </div>
   );
 }
