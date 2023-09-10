@@ -90,6 +90,3 @@ function NavBar() {
 }
 
 export default NavBar;
-{
-  /* <span className="absolute bg-black w-[40px] h-[40px]">{cartItems.length}</span>; */
-}

@@ -11,7 +11,7 @@ function MaterialsSection() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState("unsorted"); // Default: unsorted
   const [sortDirection, setSortDirection] = useState("asc");
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
     // Update itemsPerPage based on screen width
     const handleResize = () => {
@@ -73,7 +73,7 @@ function MaterialsSection() {
   return (
     <div className=" pt-4 ">
       <div className="flex justify-end md:hidden mb-4 pb-8">
-        <button>
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <Image
             src={"/icons/filters.svg"}
             alt="cart-icon"
@@ -82,6 +82,36 @@ function MaterialsSection() {
           />
         </button>
       </div>
+      {isMenuOpen ? (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-300 bg-opacity-80 z-50">
+          <div className="h-[90%] bg-white mt-16 flex flex-col justify-between">
+            <div className="absolute top-4 right-4 ">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <Image
+                  src={"/icons/x.svg"}
+                  width={20}
+                  height={20}
+                  alt={"close filters"}
+                />
+              </button>
+            </div>
+            <div className=" w-full h-full overflow-y-auto">
+              <FiltersMenu
+                currentProducts={currentProducts}
+                setCurrentProducts={setCurrentProducts}
+              />
+            </div>
+            <div className="flex justify-center items-center space-x-4 mb-4">
+              <button className="w-[170px] border-4 border-black px-8 text-[20px] uppercase">
+                Clear
+              </button>
+              <button className=" w-[170px] bg-black py-1 text-white px-8 text-[20px] uppercase">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="flex md:flex-row flex-col justify-around md:justify-between w-full pt-12  md:mb-20 border-t-4 border-t-[#E4E4E4]">
         <div className="flex items-center space-x-1  pb-4">
           <h1 className="md:text-[30px] font-bold inline-flex items-center">
