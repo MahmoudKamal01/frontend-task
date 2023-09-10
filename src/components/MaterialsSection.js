@@ -4,35 +4,37 @@ import FiltersMenu from "./FiltersMenu";
 import { products } from "@/data/materials";
 import DropdownMenu from "./DropdownMenu";
 import Image from "next/image";
+
 function MaterialsSection() {
   const [currentProducts, setCurrentProducts] = useState(products);
-  const [itemsPerPage, setItemsPerPage] = useState(6); // Number of items to display per page
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     // Update itemsPerPage based on screen width
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setItemsPerPage(4); // Mobile view
+        setItemsPerPage(4);
       } else {
-        setItemsPerPage(6); // Web view
+        setItemsPerPage(6);
       }
     };
 
-    // Initial check and add event listener for resizing
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(currentProducts.length / itemsPerPage);
+  useEffect(() => {
+    // Update filtered products whenever filters change
+    setFilteredProducts(currentProducts);
+  }, [currentProducts]);
 
-  // Calculate the index range for the current page
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
@@ -71,16 +73,18 @@ function MaterialsSection() {
           />
         </div>
         <div className="md:ml-20 w-full grid grid-cols-1 md:grid-cols-3 gap-12">
-          {currentProducts.slice(startIndex, endIndex).map((product, index) => (
-            <MaterialCard
-              key={index}
-              name={product.name}
-              category={product.category}
-              price={product.price}
-              image={product.image}
-              bestseller={product.bestseller}
-            />
-          ))}
+          {filteredProducts
+            .slice(startIndex, endIndex)
+            .map((product, index) => (
+              <MaterialCard
+                key={index}
+                name={product.name}
+                category={product.category}
+                price={product.price}
+                image={product.image}
+                bestseller={product.bestseller}
+              />
+            ))}
         </div>
       </div>
       <div className="flex justify-center mt-4 space-x-6">
